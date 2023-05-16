@@ -1,0 +1,82 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Events.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="750" d:DesignHeight="800"
+		Width="800" Height="800"
+        x:Class="Events.Views.MainWindow"
+        Icon="/Assets/kedi.ico"
+        Title="Events"
+		xmlns:local="clr-namespace:Events.Models">
+	
+	<Window.Styles>
+		<Style Selector="ItemsControl TextBlock">
+			<Setter Property="FontWeight" Value="Bold"/>
+			<Setter Property="TextWrapping" Value="Wrap"/>
+			<Setter Property="MaxWidth" Value="256"/>
+			<Setter Property="TextTrimming" Value="WordEllipsis"/>
+			<Setter Property="Foreground" Value="#FFE4E1"/>
+		</Style>
+		<Style Selector="Border.b1">
+			<Setter Property="Background" Value="#B8860B"/>
+			<Setter Property="BorderBrush" Value="#FFD700"/>
+			<Setter Property="BorderThickness" Value="2"/>
+			<Setter Property="CornerRadius" Value="8"/>
+			<Setter Property="Padding" Value="8"/>
+		</Style>
+		<Style Selector="Border.b2">
+			<Setter Property="Background" Value="#008080"/>
+			<Setter Property="Margin" Value="0 8 0 0"/>
+		</Style>
+		<Style Selector="Border.b3">
+			<Setter Property="Margin" Value="0 8 0 0"/>
+		</Style>
+	</Window.Styles>
+
+	<ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+		<StackPanel>
+			<TextBlock Text="{Binding Error}"/>
+			<Button FontFamily="/Assets/Fonts/fontawesome.ttf" Content="Welcome &#xf118; Back"/>
+			<TabControl Items="{Binding TabItems}">
+				<TabControl.ItemTemplate>
+					<DataTemplate>
+						<TextBlock FontFamily="/Assets/Fonts/fontawesome.ttf" Text="{Binding Header}" />
+					</DataTemplate>
+				</TabControl.ItemTemplate>
+				<TabControl.ContentTemplate>
+					<DataTemplate>
+						<ItemsControl Items="{Binding EventsList}">
+							<ItemsControl.ItemTemplate>
+								<DataTemplate DataType="{x:Type local:CityEvent}">
+									<Grid Margin="10" RowDefinitions="*,*">
+										<Image Height="256" Width="256" Source="{Binding Image}"/>
+										<Border Grid.Row="1" Classes="b1">
+											<StackPanel>
+												<TextBlock Text="{Binding Header}"/>
+												<Border Classes="b2" IsVisible="{Binding Date, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+													<TextBlock Text="{Binding Date}"/>
+												</Border>
+												<Border Classes="b3" IsVisible="{Binding Description, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+													<TextBlock Text="{Binding Description}"/>
+												</Border>
+												<Border Classes="b2" IsVisible="{Binding Price, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+													<TextBlock Text="{Binding Price}"/>
+												</Border>
+											</StackPanel>
+										</Border>
+									</Grid>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+							<ItemsControl.ItemsPanel>
+								<ItemsPanelTemplate>
+									<WrapPanel/>
+								</ItemsPanelTemplate>
+							</ItemsControl.ItemsPanel>
+						</ItemsControl>
+					</DataTemplate>
+				</TabControl.ContentTemplate>
+			</TabControl>
+		</StackPanel>
+	</ScrollViewer>
+</Window>
